@@ -36,10 +36,10 @@ hasher = FeatureHasher(20000)
 #args = parser.parse_args()
 
 #모델 생성
-#args = parser.parse_args(['--Malware_paths', 'data/malware', '--Benignware_paths', 'data/benignware'])
+#args = parser.parse_args(['--Malware_paths', 'Master_malware', '--Benignware_paths', 'benignware'])
 
 #파일 스캔
-args = parser.parse_args(['--Scan_folder_path', '../Downloads/D3S1-master_1/D3S1-master/tmp'])
+args = parser.parse_args(['--Scan_folder_path', '../Cpp_BaekJoon'])
 
 #데이터셋에서 파일 가져옴
 def get_dataset(benign_path,malicious_path,hasher):
@@ -122,7 +122,7 @@ def model_learning(X,y,hasher):
     
         history = model.fit(training_X, training_y, epochs=30,
                     validation_data=(test_X, test_y))
-        #model.save('DNN_model_30.h5')
+        model.save('DNN_model_30.h5')
         
         fold_ctr += 1
         break
@@ -150,8 +150,9 @@ def scan_folder(path):
         for path in os.listdir(directory):
             targets.append(os.path.join(directory,path))
         return targets
-    
+
     test_paths = get_scan_paths(path)
+    print('*'*30)
     X = [get_str_features(path,hasher) for path in test_paths]
     
     X = np.array(X)
