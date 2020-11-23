@@ -36,10 +36,10 @@ hasher = FeatureHasher(20000)
 #args = parser.parse_args()
 
 #모델 생성
-#args = parser.parse_args(['--Malware_paths', 'Master_malware', '--Benignware_paths', 'benignware'])
+args = parser.parse_args(['--Malware_paths', 'Master_malware', '--Benignware_paths', 'benignware'])
 
 #파일 스캔
-args = parser.parse_args(['--Scan_folder_path', '../Cpp_BaekJoon'])
+#args = parser.parse_args(['--Scan_folder_path', 'test'])
 
 #데이터셋에서 파일 가져옴
 def get_dataset(benign_path,malicious_path,hasher):
@@ -152,7 +152,6 @@ def scan_folder(path):
         return targets
 
     test_paths = get_scan_paths(path)
-    print('*'*30)
     X = [get_str_features(path,hasher) for path in test_paths]
     
     X = np.array(X)
@@ -167,20 +166,23 @@ def scan_folder(path):
     X = X.reshape(-1, 1, 20000)
     _pred = model.predict_classes(X)
     
-    k_ctr = 0
-    for k in _pred:
-        if _pred[k] > 0.9:
-            k_ctr = 1
-
-    if _pred[-1] == 1:
-        k_ctr = 1
     
-    if k_ctr == 1:
-        print("\n{0}\n0: 정상\n1: 멀웨어\n".format(_pred))
+    
+    _pred = list(_pred)
+    
+    _count = 0
+    for k in _pred:
+        if k == 1:
+            _count += 1
+            
+    
+    if 1 in _pred:
+        print("멀웨어 갯수: ",_count)
+        print("\n{0}\n \n0: 정상\n1: 멀웨어\n".format(_pred))
         print("*"*50)
         print("멀웨어로 예측된 파일이 발견되었습니다. \n파일을 삭제하고 싶으신가요? \ny / n")
     else:
-        print("정상적인 폴더로 예측되었습니다.",_pred)
+        print("정상적인 폴더로 예측되었습니다.",_pred, sep="\n")
         
 #처음 입력받은 값에 따라 실제로 실행되는 부분
 if args.Scan_folder_path:
