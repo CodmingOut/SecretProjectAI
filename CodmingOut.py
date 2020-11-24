@@ -120,7 +120,7 @@ def model_learning(X,y,hasher):
               optimizer="Adamax",
               metrics=["accuracy"])
     
-        history = model.fit(training_X, training_y, epochs=30,
+        history = model.fit(training_X, training_y, epochs=35,
                     validation_data=(test_X, test_y))
         model.save('DNN_model_30.h5')
         
