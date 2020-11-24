@@ -36,10 +36,10 @@ hasher = FeatureHasher(20000)
 #args = parser.parse_args()
 
 #모델 생성
-args = parser.parse_args(['--Malware_paths', 'Master_malware', '--Benignware_paths', 'benignware'])
+#args = parser.parse_args(['--Malware_paths', 'Master_malware', '--Benignware_paths', 'benignware'])
 
 #파일 스캔
-#args = parser.parse_args(['--Scan_folder_path', 'test'])
+args = parser.parse_args(['--Scan_folder_path', 'test'])
 
 #데이터셋에서 파일 가져옴
 def get_dataset(benign_path,malicious_path,hasher):
@@ -155,13 +155,6 @@ def scan_folder(path):
     X = [get_str_features(path,hasher) for path in test_paths]
     
     X = np.array(X)
-    
-    fold_ctr = 0
-    fold = KFold(2,shuffle=True)
-    for k in fold.split(X):
-        X = X[k,]
-        fold_ctr += 1
-        break
     
     X = X.reshape(-1, 1, 20000)
     _pred = model.predict_classes(X)
