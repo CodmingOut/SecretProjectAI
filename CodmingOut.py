@@ -36,7 +36,7 @@ hasher = FeatureHasher(20000)
 #args = parser.parse_args()
 
 #모델 생성
-#args = parser.parse_args(['--Malware_paths', 'Master_malware', '--Benignware_paths', 'benignware'])
+args = parser.parse_args(['--Malware_paths', 'Master_malware', '--Benignware_paths', 'benignware'])
 
 #파일 스캔
 args = parser.parse_args(['--Scan_folder_path', 'test'])
